@@ -1,6 +1,6 @@
-/home/ahmad-dagher/ps-workspace/source-control/devops_sample/src/main/java/com/progressoft/devops/assignment/repository/PersonEntity.java
-/home/ahmad-dagher/ps-workspace/source-control/devops_sample/src/main/java/com/progressoft/devops/assignment/controller/PersonMapper.java
-/home/ahmad-dagher/ps-workspace/source-control/devops_sample/src/main/java/com/progressoft/devops/assignment/controller/Person.java
-/home/ahmad-dagher/ps-workspace/source-control/devops_sample/src/main/java/com/progressoft/devops/assignment/Application.java
-/home/ahmad-dagher/ps-workspace/source-control/devops_sample/src/main/java/com/progressoft/devops/assignment/controller/PersonController.java
-/home/ahmad-dagher/ps-workspace/source-control/devops_sample/src/main/java/com/progressoft/devops/assignment/repository/PersonRepository.java
+/home/ahmad-dagher/ps-workspace/source-control/devops-practices/src/main/java/com/progressoft/devops/assignment/controller/PersonMapper.java
+/home/ahmad-dagher/ps-workspace/source-control/devops-practices/src/main/java/com/progressoft/devops/assignment/Application.java
+/home/ahmad-dagher/ps-workspace/source-control/devops-practices/src/main/java/com/progressoft/devops/assignment/repository/PersonEntity.java
+/home/ahmad-dagher/ps-workspace/source-control/devops-practices/src/main/java/com/progressoft/devops/assignment/controller/Person.java
+/home/ahmad-dagher/ps-workspace/source-control/devops-practices/src/main/java/com/progressoft/devops/assignment/controller/PersonController.java
+/home/ahmad-dagher/ps-workspace/source-control/devops-practices/src/main/java/com/progressoft/devops/assignment/repository/PersonRepository.java
