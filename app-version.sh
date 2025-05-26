@@ -7,4 +7,8 @@ NEW_VERSION="${DATE}-${HASH}"
 
 echo "Setting version to $NEW_VERSION"
 
+mvn clean 
+
 mvn versions:set -DnewVersion="$NEW_VERSION" -DgenerateBackupPoms=false
+
+mvn package

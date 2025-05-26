@@ -1,9 +1,5 @@
 # DevOps Team Assignment
-<<<<<<< HEAD
-creating 
-=======
-commit to versuion
->>>>>>> 5eed51a (test the version update)
+
 ## Compilation
 To compile the code, run the following command:
 

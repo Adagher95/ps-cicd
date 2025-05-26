@@ -10,6 +10,7 @@ package:
     - echo "Packaging Maven Project"
     - chmod +x app-version.sh
     - ./app-version.sh
+    - rm -rf target
     - mvn clean package
   artifacts:
     paths:
