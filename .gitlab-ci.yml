@@ -1,7 +1,7 @@
 stages:
   - package
  
-build_jar:
+package:
   stage: package
   tags:
     - ahmad 
