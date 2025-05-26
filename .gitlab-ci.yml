@@ -4,10 +4,10 @@ stages:
 build_jar:
   stage: package
   tags:
-    - osama
+    - ahmad
   script:
     - echo "Packaging Maven Project"
-    - chmod +x set-version.sh
+    - chmod +x app-version.sh
     - ./set-version.sh
     - mvn clean package
   artifacts:
