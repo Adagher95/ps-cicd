@@ -1,5 +1,9 @@
 # DevOps Team Assignment
+<<<<<<< HEAD
 creating 
+=======
+commit to versuion
+>>>>>>> 5eed51a (test the version update)
 ## Compilation
 To compile the code, run the following command:
 
@@ -17,7 +21,7 @@ This will run the application on port 8090. To change that, use the following:
 To use H2 embedded in memory database, please use the following command:
 
 ```java -jar -Dspring.profiles.active=h2 assignment-0.0.1-SNAPSHOT.jar```
-
+ 
 ```java -jar -Dserver.port=8070 -Dspring.profiles.active=h2 assignment-0.0.1-SNAPSHOT.jar```
 
 ## Changing database configuration
