@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATE=$(date +%y%m%d)
+DATE=$(git log -1 --format=%y%m%d --date=format:%y%m%d)
 HASH=$(git rev-parse --short=8 HEAD)
 
 NEW_VERSION="${DATE}-${HASH}"
