@@ -15,6 +15,6 @@ package:
   artifacts:
     paths:
       - target/*.jar
-    expire_in: 1 day
+    expire_in: 1 week
   only:
     - branches
