@@ -1,19 +1,15 @@
 stages:
   - package
-
-package:
+ 
+build_jar:
   stage: package
   tags:
-    - ahmad   
+    - osama
   script:
-    - COMMIT_DATE=$(git show -s --format=%cd --date=format:%y%m%d $CI_COMMIT_SHA)
-    - SHORT_SHA=${CI_COMMIT_SHORT_SHA}
-    - NEW_VERSION="${COMMIT_DATE}-${SHORT_SHA}"
+    - echo "Packaging Maven Project"
+    - chmod +x set-version.sh
+    - ./set-version.sh
     - mvn clean package
-    - mv target/*.jar target/myapp-$NEW_VERSION.jar
   artifacts:
     paths:
       - target/*.jar
-    expire_in: 1 week
-  only:
-    - branches
