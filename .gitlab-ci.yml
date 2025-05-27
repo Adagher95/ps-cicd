@@ -6,10 +6,9 @@ package:
   tags:
     - ahmad 
   script:
-    - echo "Packaging Maven Project"
+    - echo "Packaging The Maven Project "
     - chmod +x app-version.sh
     - ./app-version.sh
-    - rm -rf target
     - mvn clean package
   artifacts:
     paths:
