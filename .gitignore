@@ -1,2 +1,6 @@
 target/
 testing.yml
+.env
+secrets/
+kubectl
+kubectl.sha256

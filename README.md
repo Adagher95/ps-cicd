@@ -1,5 +1,6 @@
 # DevOps Team Assignment
 
+
 ## Compilation
 To compile the code, run the following command:
 
@@ -56,6 +57,7 @@ This end point follows standard REST convention, in which, you can do the follow
 {
     "name": "a name",
     "age": 23
+}
 ```
 Also, make sure to include the following HTTP header:
 ```$xslt

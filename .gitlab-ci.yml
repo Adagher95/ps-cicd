@@ -1,15 +1,100 @@
 stages:
   - package
- 
-package:
+  - containerize
+  - deploy_k8s
+  - cleanup_k8s
+
+variables:
+  K8S_NAMESPACE: "assignment-${CI_COMMIT_REF_SLUG}"
+
+package_app:
   stage: package
   tags:
-    - ahmad 
+    - ahmad
   script:
-    - echo "Packaging The Maven Project "
-    - chmod +x app-version.sh
-    - ./app-version.sh
-    - mvn clean package
+    - echo "package the app"
+    - COMMIT_DATE=$(date +%y%m%d)
+    - SHORT_SHA=$CI_COMMIT_SHORT_SHA
+    - NEW_VERSION="${COMMIT_DATE}-${SHORT_SHA}"
+    - mvn versions:set -DnewVersion="$NEW_VERSION" -DgenerateBackupPoms=false
+    - mvn clean package 
+    - echo $NEW_VERSION > version.txt
   artifacts:
     paths:
       - target/*.jar
+      - version.txt
+
+containerize_app:
+  stage: containerize
+  tags:
+    - ahmad
+  dependencies:
+    - package_app
+  script:
+    - echo "Building Docker image"
+    - VERSION=$(cat version.txt)
+    - JAR_NAME=assignment-$VERSION.jar
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - docker build --build-arg JAR_FILE=target/$JAR_NAME -t ps95adagher/assignment:$VERSION .
+    - docker push ps95adagher/assignment:$VERSION
+  artifacts:
+    paths:
+      - version.txt
+
+deploy_k8s:
+  stage: deploy_k8s
+  tags:
+    - ahmad
+  dependencies:
+    - containerize_app
+  script:
+    - VERSION=$(cat version.txt)
+    - echo "Deploying to Kubernetes namespace $K8S_NAMESPACE"
+    - kubectl create namespace $K8S_NAMESPACE || echo "Namespace already exists"
+    - kubectl config set-context --current --namespace=$K8S_NAMESPACE
+    - kubectl apply -f ./k8s-manifests/mysql-deployment.yaml
+    - kubectl apply -f ./k8s-manifests/app-deployment.yaml
+    - kubectl apply -f ./k8s-manifests/check-db-configmap.yaml
+    - kubectl apply -f ./k8s-manifests/pvc.yaml
+
+  only:
+    refs:
+      - branches
+    variables:
+      - $CI_COMMIT_BRANCH != "main"
+  when: on_success
+
+deploy_k8s_master:
+  stage: deploy_k8s
+  tags:
+    - ahmad
+  dependencies:
+    - containerize_app
+  script:
+    - VERSION=$(cat version.txt)
+    - echo "Deploying to Kubernetes namespace $K8S_NAMESPACE"
+    - kubectl create namespace $K8S_NAMESPACE || echo "Namespace already exists"
+    - kubectl config set-context --current --namespace=$K8S_NAMESPACE
+    - kubectl apply -f ./k8s-manifests/secrets.yaml
+    - kubectl apply -f ./k8s-manifests/mysql-deployment.yaml
+    - kubectl apply -f ./k8s-manifests/app-deployment.yaml
+    - kubectl apply -f ./k8s-manifests/check-db-configmap.yaml
+    - kubectl apply -f ./k8s-manifests/pvc.yaml
+
+  only:
+    refs:
+      - main
+  when: manual
+
+cleanup_k8s:
+  stage: cleanup_k8s
+  tags:
+    - ahmad
+  dependencies:
+    - deploy_k8s_master
+  script:
+    - echo "Deleting Kubernetes namespace $K8S_NAMESPACE"
+    - kubectl delete namespace $K8S_NAMESPACE || echo "Namespace not found"
+  when: manual
+  only:
+    - branches

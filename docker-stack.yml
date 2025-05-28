@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  progressoft_db:
+    image: mysql:8
+    deploy:
+      replicas: 1
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: /run/secrets/mysql_user
+      MYSQL_PASSWORD: /run/secrets/mysql_password
+      MYSQL_ROOT_PASSWORD: /run/secrets/mysql_root_password
+    secrets:
+      - mysql_user
+      - mysql_password
+      - mysql_root_password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  progressoft_app:
+    image: ps95adagher/assignment:latest
+    deploy:
+      replicas: 2
+    depends_on:
+      - db
+    ports:
+      - "8070:8090"  
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: /run/secrets/mysql_user
+      SPRING_DATASOURCE_PASSWORD: /run/secrets/mysql_password
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: ${SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
+    secrets:
+      - mysql_user
+      - mysql_password
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+
+networks:
+  app-network:
+
+secrets:
+  mysql_user:
+    external: true
+  mysql_password:
+    external: true
+  mysql_root_password:
+    external: true
