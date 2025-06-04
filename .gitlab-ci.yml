@@ -52,10 +52,12 @@ deploy_k8s:
     - echo "Deploying to Kubernetes namespace $K8S_NAMESPACE"
     - kubectl create namespace $K8S_NAMESPACE || echo "Namespace already exists"
     - kubectl config set-context --current --namespace=$K8S_NAMESPACE
+    - kubectl apply -f ./k8s-manifests/check-db-configmap.yaml
+    - kubectl apply -f ./k8s-manifests/assignment-configmap.yaml
+    - kubectl apply -f ./k8s-manifests/pvc.yaml
     - kubectl apply -f ./k8s-manifests/mysql-deployment.yaml
     - kubectl apply -f ./k8s-manifests/app-deployment.yaml
-    - kubectl apply -f ./k8s-manifests/check-db-configmap.yaml
-    - kubectl apply -f ./k8s-manifests/pvc.yaml
+    
 
   only:
     refs:
@@ -76,11 +78,11 @@ deploy_k8s_master:
     - kubectl create namespace $K8S_NAMESPACE || echo "Namespace already exists"
     - kubectl config set-context --current --namespace=$K8S_NAMESPACE
     - kubectl apply -f ./k8s-manifests/secrets.yaml
+    - kubectl apply -f ./k8s-manifests/check-db-configmap.yaml
+    - kubectl apply -f ./k8s-manifests/assignment-configmap.yaml
+    - kubectl apply -f ./k8s-manifests/pvc.yaml
     - kubectl apply -f ./k8s-manifests/mysql-deployment.yaml
     - kubectl apply -f ./k8s-manifests/app-deployment.yaml
-    - kubectl apply -f ./k8s-manifests/check-db-configmap.yaml
-    - kubectl apply -f ./k8s-manifests/pvc.yaml
-
   only:
     refs:
       - main
