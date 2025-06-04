@@ -36,11 +36,10 @@ spec:
         image: ps95adagher/assignment:250601-391af902
         ports:
         - containerPort: 8090
+        envFrom:
+        - configMapRef:
+            name: assignment-config
         env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: "default"
-        - name: SPRING_DATASOURCE_URL
-          value: "jdbc:mysql://mysql:3306/assignment?allowPublicKeyRetrieval=true&useSSL=false"
         - name: SPRING_DATASOURCE_USERNAME
           valueFrom:
             secretKeyRef:
@@ -51,12 +50,6 @@ spec:
             secretKeyRef:
               name: mysql-secret
               key: password
-        - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
-          value: "com.mysql.cj.jdbc.Driver"
-        - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
-          value: "org.hibernate.dialect.MySQL8Dialect"
-        - name: SPRING_JPA_HIBERNATE_DDL_AUTO
-          value: "update"
         livenessProbe:
           httpGet:
             path: /actuator/health
@@ -81,16 +74,3 @@ spec:
         configMap:
           name: check-db
           defaultMode: 0755
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: assignment-service    
-spec:
-  selector:
-    app: assignment-app
-  ports:
-    - port: 80
-      targetPort: 8090
-  type: NodePort
