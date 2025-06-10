@@ -15,9 +15,10 @@ spec:
       containers:
       - name: mysql
         image: mysql:8
+        envFrom:
+        - configMapRef:
+            name: assignment-config
         env:
-        - name: MYSQL_DATABASE
-          value: assignment
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
