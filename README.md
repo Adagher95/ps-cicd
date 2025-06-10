@@ -1,6 +1,5 @@
 # DevOps Team Assignment
 
-
 ## Compilation
 To compile the code, run the following command:
 
