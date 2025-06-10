@@ -56,6 +56,7 @@ deploy_k8s:
     - kubectl apply -f ./k8s-manifests/assignment-configmap.yaml
     - kubectl apply -f ./k8s-manifests/pvc.yaml
     - kubectl apply -f ./k8s-manifests/mysql-deployment.yaml
+    - kubectl wait --for=condition=ready pod -l app=mysql --timeout=60s
     - kubectl apply -f ./k8s-manifests/app-deployment.yaml
     
 
@@ -82,6 +83,7 @@ deploy_k8s_master:
     - kubectl apply -f ./k8s-manifests/assignment-configmap.yaml
     - kubectl apply -f ./k8s-manifests/pvc.yaml
     - kubectl apply -f ./k8s-manifests/mysql-deployment.yaml
+    - kubectl wait --for=condition=ready pod -l app=mysql --timeout=60s
     - kubectl apply -f ./k8s-manifests/app-deployment.yaml
   only:
     refs:
