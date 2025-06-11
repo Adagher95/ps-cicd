@@ -4,5 +4,5 @@ testing.yml
 secrets/
 kubectl
 kubectl.sha256
-assignment-chart/
+progressoft-app/
 k8s-manifests/monitor.yaml
