@@ -1,0 +1,31 @@
+replicaCount: 1
+
+image:
+  repository: ps95adagher/assignment
+  tag: 250601-391af902
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+ingress:
+  enabled: true
+  host: assignment.local
+
+monitoring:
+  enabled: true
+
+mysql:
+  auth:
+    database: assignment
+    username: user1
+    password: userpass  
+    rootPassword: rootpass
+  primary:
+    persistence:
+      enabled: true
+      size: 5Gi

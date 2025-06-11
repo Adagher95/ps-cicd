@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "progressoft-app.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "progressoft-app.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "progressoft-app.name" . }}
+    spec:
+      initContainers:
+      - name: check-db
+        image: mysql:8
+        command: [ "sh", "-c", "/scripts/wait-for-mysql.sh" ]
+        volumeMounts:
+        - name: scripts
+          mountPath: /scripts
+        env:
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "progressoft-app.fullname" . }}-mysql-secret
+              key: username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "progressoft-app.fullname" . }}-mysql-secret
+              key: password
+
+      containers:
+      - name: app
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        ports:
+        - containerPort: 8090
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "default"
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://{{ include "progressoft-app.fullname" . }}-mysql:3306/assignment?allowPublicKeyRetrieval=true&useSSL=false"
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "progressoft-app.fullname" . }}-mysql-secret
+              key: username
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "progressoft-app.fullname" . }}-mysql-secret
+              key: password
+        - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+          value: "com.mysql.cj.jdbc.Driver"
+        - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+          value: "org.hibernate.dialect.MySQL8Dialect"
+        - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+          value: "update"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8090
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8090
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: {{ .Values.resources.requests.cpu }}
+            memory: {{ .Values.resources.requests.memory }}
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
+      volumes:
+      - name: scripts
+        configMap:
+          name: {{ include "progressoft-app.fullname" . }}-check-db
+          defaultMode: 0755

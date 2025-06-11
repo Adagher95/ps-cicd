@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "progressoft-app.fullname" . }}
+spec:
+  selector:
+    app: {{ include "progressoft-app.name" . }}
+  ports:
+    - port: 80
+      targetPort: 8090
+  type: NodePort

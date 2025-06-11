@@ -4,5 +4,4 @@ testing.yml
 secrets/
 kubectl
 kubectl.sha256
-progressoft-app/
-k8s-manifests/monitor.yaml
+minikube-linux-amd64
