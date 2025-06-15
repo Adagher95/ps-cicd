@@ -34,7 +34,7 @@ containerize_app:
     - echo "Building Docker image"
     - VERSION=$(cat version.txt)
     - JAR_NAME=assignment-$VERSION.jar
-    - docker login -u ps95adagher -p "$DOCKER_PASSWORD"
+    - docker login -u ps95adagher -p KPMG@1995@ad
     - docker build --build-arg JAR_FILE=target/$JAR_NAME -t ps95adagher/assignment:$VERSION .
     - docker push ps95adagher/assignment:$VERSION
   artifacts:
