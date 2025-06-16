@@ -28,4 +28,6 @@ mysql:
   primary:
     persistence:
       enabled: true
-      size: 5Gi
+      storageClass: "standard"
+      accessMode: ReadWriteOnce
+      size: 8Gi

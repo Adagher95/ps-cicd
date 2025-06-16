@@ -4,7 +4,7 @@ metadata:
   name: {{ include "progressoft-app.fullname" . }}-config
 data:
   SPRING_PROFILES_ACTIVE: "default"
-  SPRING_DATASOURCE_URL: "jdbc:mysql://{{ .Release.Name }}-mysql:3306/assignment?allowPublicKeyRetrieval=true&useSSL=false"
+  SPRING_DATASOURCE_URL: "jdbc:mysql://{{ .Release.Name }}-progressoft-app-mysql:3306/assignment?allowPublicKeyRetrieval=true&useSSL=false"
   SPRING_DATASOURCE_DRIVER_CLASS_NAME: "com.mysql.cj.jdbc.Driver"
   SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.MySQL8Dialect"
   SPRING_JPA_HIBERNATE_DDL_AUTO: "update"

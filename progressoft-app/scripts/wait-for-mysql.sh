@@ -1,6 +1,6 @@
  #!/bin/sh
     RETRIES=30
-    until mysql -h my-release-mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -e "SELECT 1" > /dev/null 2>&1 || [ $RETRIES -eq 0 ]; do
+    until mysql -h my-release-progressoft-app-mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -e "SELECT 1" > /dev/null 2>&1 || [ $RETRIES -eq 0 ]; do
       echo "Waiting for MySQL... $((RETRIES--))"
       sleep 5
     done

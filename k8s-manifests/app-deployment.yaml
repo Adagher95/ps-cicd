@@ -20,6 +20,10 @@ spec:
         - name: scripts
           mountPath: /scripts
         env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "default"
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://mysql:3306/assignment?allowPublicKeyRetrieval=true&useSSL=false"
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
@@ -30,6 +34,12 @@ spec:
             secretKeyRef:
               name: mysql-secret
               key: password
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: root-password
+
 
       containers:
       - name: app
