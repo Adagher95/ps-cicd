@@ -5,3 +5,4 @@ secrets/
 kubectl
 kubectl.sha256
 minikube-linux-amd64
+k8s-manifests/.env
