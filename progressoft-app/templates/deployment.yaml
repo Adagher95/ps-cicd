@@ -40,7 +40,7 @@ spec:
         - name: SPRING_PROFILES_ACTIVE
           value: "default"
         - name: SPRING_DATASOURCE_URL
-          value: "jdbc:mysql://my-release-progressoft-app-mysql:3306/assignment?allowPublicKeyRetrieval=true&useSSL=false"
+          value: "jdbc:mysql://{{ .Release.Name }}-progressoft-app-mysql:3306/assignment?allowPublicKeyRetrieval=true&useSSL=false"
         - name: SPRING_DATASOURCE_USERNAME
           valueFrom:
             secretKeyRef:

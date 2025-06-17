@@ -17,7 +17,7 @@ ingress:
   host: progressoft.task
 
 monitoring:
-  enabled: true
+  enabled: false
   ingress:
     enabled: true
     host: grafana.progressoft.task
