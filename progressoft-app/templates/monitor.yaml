@@ -3,9 +3,9 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ include "progressoft-app.fullname" . }}-monitor
-  namespace: monitoring
+  namespace: {{ .Release.Namespace }}
   labels:
-    release: prometheus-stack
+    release: monitoring
 spec:
   selector:
     matchLabels:

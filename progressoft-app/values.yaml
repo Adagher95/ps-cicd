@@ -17,10 +17,8 @@ ingress:
   host: progressoft.task
 
 monitoring:
-  enabled: false
-  ingress:
-    enabled: true
-    host: grafana.progressoft.task
+  enabled: true 
+ 
 
 mysql:
   auth:
