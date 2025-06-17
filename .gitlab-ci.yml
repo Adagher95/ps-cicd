@@ -49,8 +49,8 @@ deploy_k8s:
   dependencies:
     - containerize_app
   script:
-    #- export KUBECONFIG=/etc/kube/config
-    #- echo $KUBECONFIG
+    - export KUBECONFIG=/etc/kube/config
+    - echo $KUBECONFIG
     - VERSION=$(cat version.txt)
     - echo "Deploying to Kubernetes namespace $K8S_NAMESPACE using Helm"
     - helm install task ./progressoft-app --namespace "$K8S_NAMESPACE" --create-namespace  -f ./progressoft-app/values.yaml 
