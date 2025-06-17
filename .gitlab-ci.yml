@@ -49,11 +49,11 @@ deploy_k8s:
   dependencies:
     - containerize_app
   script:
-    #- export KUBECONFIG=/etc/kube/config
-    #- echo $KUBECONFIG
+    - export KUBECONFIG=/etc/kube/config
+    - echo $KUBECONFIG
     - VERSION=$(cat version.txt)
     - echo "Deploying to Kubernetes namespace $K8S_NAMESPACE using Helm"
-    - helm install my-release ./progressoft-app --namespace "$K8S_NAMESPACE" --create-namespace  -f ./progressoft-app/values.yaml #--set image.tag="$VERSION" --set monitoring.enabled=false --wait
+    - helm install task ./progressoft-app --namespace "$K8S_NAMESPACE" --create-namespace  -f ./progressoft-app/values.yaml 
 
   only:
     refs:
@@ -73,8 +73,7 @@ deploy_k8s_master:
     - echo $KUBECONFIG
     - VERSION=$(cat version.txt)
     - echo "Deploying to Kubernetes namespace $K8S_NAMESPACE using Helm"
-    - helm install my-release ./progressoft-app --namespace "$K8S_NAMESPACE" --create-namespace  -f ./progressoft-app/values.yaml #--set image.tag="$VERSION" --set monitoring.enabled=false --wait
-
+    - helm install task ./progressoft-app --namespace "$K8S_NAMESPACE" --create-namespace  -f ./progressoft-app/values.yaml 
 
   only:
     refs:
@@ -85,11 +84,10 @@ cleanup_k8s:
   stage: cleanup_k8s
   tags:
     - ahmad
-  dependencies:
-    - deploy_k8s_master
   script:
-    - echo "Deleting Kubernetes namespace $K8S_NAMESPACE"
-    - kubectl delete namespace $K8S_NAMESPACE || echo "Namespace not found!"
+    - export K8S_NAMESPACE="assignment-${CI_COMMIT_REF_SLUG}"
+    - echo "Uninstalling Helm release 'task' from namespace $K8S_NAMESPACE"
+    - helm uninstall task --namespace "$K8S_NAMESPACE" || echo "Helm release or namespace not found."
   when: manual
   only:
-    - branches
+    - main
