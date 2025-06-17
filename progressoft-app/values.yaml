@@ -15,6 +15,7 @@ resources:
 ingress:
   enabled: true
   host: progressoft.task
+  tlsSecret: assignment-tls
 
 monitoring:
   enabled: true 
