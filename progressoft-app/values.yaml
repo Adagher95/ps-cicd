@@ -14,10 +14,13 @@ resources:
 
 ingress:
   enabled: true
-  host: assignment.local
+  host: progressoft.task
 
 monitoring:
   enabled: true
+  ingress:
+    enabled: true
+    host: grafana.progressoft.task
 
 mysql:
   auth:

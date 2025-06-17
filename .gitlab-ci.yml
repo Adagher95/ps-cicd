@@ -49,10 +49,11 @@ deploy_k8s:
   dependencies:
     - containerize_app
   script:
-    - export KUBECONFIG=/etc/kube/config
+    #- export KUBECONFIG=/etc/kube/config
+    #- echo $KUBECONFIG
     - VERSION=$(cat version.txt)
     - echo "Deploying to Kubernetes namespace $K8S_NAMESPACE using Helm"
-    - helm install my-release ./progressoft-app --namespace "$K8S_NAMESPACE" --create-namespace --set image.tag="$VERSION" --set monitoring.enabled=false --wait
+    - helm install my-release ./progressoft-app --namespace "$K8S_NAMESPACE" --create-namespace  -f ./progressoft-app/values.yaml #--set image.tag="$VERSION" --set monitoring.enabled=false --wait
 
   only:
     refs:
@@ -68,11 +69,11 @@ deploy_k8s_master:
   dependencies:
     - containerize_app
   script:
-    - export KUBECONFIG=/etc/kube/config
-    - echo $KUBECONFIG
+    #- export KUBECONFIG=/etc/kube/config
+    #- echo $KUBECONFIG
     - VERSION=$(cat version.txt)
     - echo "Deploying to Kubernetes namespace $K8S_NAMESPACE using Helm"
-    - helm install my-release ./progressoft-app --namespace "$K8S_NAMESPACE" --create-namespace --set image.tag="$VERSION" --set monitoring.enabled=false --wait
+    - helm install my-release ./progressoft-app --namespace "$K8S_NAMESPACE" --create-namespace  -f ./progressoft-app/values.yaml #--set image.tag="$VERSION" --set monitoring.enabled=false --wait
 
 
   only:
